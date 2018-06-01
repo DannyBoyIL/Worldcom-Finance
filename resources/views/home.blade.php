@@ -75,11 +75,12 @@
         <div class="m-b-md">
             <form action="{{ url('zip-code') }}" method="post">
                 {{ csrf_field() }}
+                <label for="country"></label>
+                <select id="country" name="country">
                 @foreach($countries as $country)
-                <label for="country">{{ $country['name'] }}</label>
-                <input type="checkbox" id="country" name="{{ $country['abbreviation'] }}">
-                    <br>
+                    <option value="{{ $country['abbreviation'] }}">{{ $country['name'] }}</option>
                 @endforeach
+                </select>
                 <hr>
                 <label for="zip">Zip</label>
                 <br>

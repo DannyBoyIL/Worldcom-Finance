@@ -36,6 +36,7 @@ class Country extends Model {
     }
 
     static function searchDB($array) {
+        dd($array);
         foreach ($array as $key => $value) {
             $keeper = $value;
             if (!is_string($value)) {
@@ -63,27 +64,26 @@ class Country extends Model {
             return is_array($value);
         });
 
-        if ($isArray) {
+//        if ($isArray) {
+//
+//        $result = new self();
+////        dd($isArray);
+//        $sql = $result->prepare_query($isArray, 'AND', ['c.id', 'places.id', 'z.zip'], true);
+//        dd($sql);
+//        $result = Place::join('zips AS z', 'z.place_id', 'places.id')
+//            ->join('countries AS c', 'c.id', 'places.country_id')
+//            ->whereRaw('c.id = ? AND places.id = ? AND z.zip = ?', $isArray)
+//            ->select('c.name AS country', 'c.abbreviation', 'z.zip', 'places.*')
+//            ->get();
+//
+//        dd($result->toArray());
+//        }
 
-        $result = new self();
-//        dd($isArray);
-        $sql = $result->prepare_query($isArray, 'AND', ['c.id', 'places.id', 'z.zip'], true);
-        dd($sql);
-        $result = Place::join('zips AS z', 'z.place_id', 'places.id')
-            ->join('countries AS c', 'c.id', 'places.country_id')
-            ->whereRaw('c.id = ? AND places.id = ? AND z.zip = ?', $isArray)
-            ->select('c.name AS country', 'c.abbreviation', 'z.zip', 'places.*')
-            ->get();
-
-        dd($result->toArray());
-        }
-
-        if (empty($zips)) {
 
             $country = new self();
             $array = $country->convert_checkbox($array);
             $zip = $array['zip'];
-
+            dd($zip);
 //            dd($array['countries'] . 'if (empty($zips))');
 
             $client = new \GuzzleHttp\Client();
@@ -92,7 +92,7 @@ class Country extends Model {
                 echo '<pre>' . $response->getBody();
             });
             $promise->wait();
-        }
+
     }
 
 }
