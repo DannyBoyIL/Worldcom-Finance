@@ -16,6 +16,7 @@ class Country extends Model {
 
     static function findPlace($request, &$data) {
 
+        dd($request);
         $data = [];
         $abb = $request['country'];
         $zip = $request['zip'];
