@@ -69,6 +69,7 @@
     </style>
 </head>
 <body>
+
 <div class="flex-center position-ref full-height">
 
     <div class="content">
@@ -78,7 +79,7 @@
                 <label for="country"></label>
                 <select id="country" name="country">
                 @foreach($countries as $country)
-                    <option value="{{ $country['abbreviation'] }}">{{ $country['name'] }}</option>
+                    <option value="{{ $country['id'] }}">{{ $country['name'] }}</option>
                 @endforeach
                 </select>
                 <hr>
