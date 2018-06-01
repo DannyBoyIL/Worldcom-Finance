@@ -80,16 +80,16 @@ class Country extends Model {
 //
 //        dd($result->toArray());
 //        }
-
-
 //            $country = new self();
 //            $array = $country->convert_checkbox($array);
 //            $zip = $array['zip'];
 //            dd($zip);
 //            dd($array['countries'] . 'if (empty($zips))');
 
-            $array = $request->toArray();
+        $array = $request->toArray();
 //            dd($array);
+
+
             $country = $array['country'];
             $zip = $array['zip'];
 //            dd($country);
