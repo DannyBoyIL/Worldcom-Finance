@@ -4,58 +4,35 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Country;
 
-class Place extends Model
-{
-    protected $fillable = ['country_id', 'zip', 'name', 'place', 'longitude', 'latitude'];
+class Place extends Model {
 
-    static public function findZip($r)
-    {
-//        dd($r->toArray());
-        $arr = $r->toArray();
-        $countries = [];
-        $zip = $arr['zip'];
-        foreach ($arr as $key => $value) {
-            if ($value == 'on') {
-                $countries[] = $key;
-            }
-        }
+    protected $fillable = ['country_id', 'name', 'place', 'longitude', 'latitude'];
 
-//        dd('OR ' . $country[1]);
-        if(count($countries) > 1) {
-            for($i = 1; $i < count($countries); $i++ ) {
-                $countries[$i] = ' OR z.country_abb = ' . $countries[$i];
-            }
-        }
-
-//        dd($countries);
-        $sql = '';
-        foreach($countries as $country) {
-            $sql .= $country;
-        }
-//        dd($sql);
-
-        $places = DB::select('select z.country_abb, p.* from places AS p ' .
-            ' join zip_codes AS z ON z.id = p.country_id ' .
-            ' where z.country_abb = ' . "$sql");
-
-        dd($places);
-
-        $client = new \GuzzleHttp\Client();
-
-        // Send an asynchronous request.
-//        $request = new \GuzzleHttp\Psr7\Request('GET', 'http://api.zippopotam.us/us/90210');
-//        $str = '';
-//        for ($i = 0; $i < strlen($zip); $i++) {
-//        $str .= $zip[$i];
-////        echo $str . '<br>';
-//    }
-//    die();
-        $request = new \GuzzleHttp\Psr7\Request('GET', "http://api.zippopotam.us/$country/$zip");
-        $promise = $client->sendAsync($request)->then(function ($response) {
-            echo '<pre>' . $response->getBody();
-        });
-        $promise->wait();
-
+    public function zips() {
+        return $this->belongsTo('App\Zip', 'id', 'place_id');
     }
+
+//array:3 [▼
+//"country_id" => 8
+//"place_id" => 1
+//"zip" => "4005"
+//]
+
+
+    public function countries() {
+        return $this->belongsTo('App\country', 'country_id', 'id');
+    }
+
+    static public function findZip($z, $c, $p) {
+//        $zips = Zip::where('zip', '=', $z)->get();
+//        $countries = self::find($c)->countries;
+        $places = self::find($p)->get();
+
+//        dd($zips->toArray());
+//        dd($countries->toArray());
+        dd($places->toArray());
+    }
+
 }

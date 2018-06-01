@@ -75,9 +75,9 @@
         <div class="m-b-md">
             <form action="{{ url('zip-code') }}" method="post">
                 {{ csrf_field() }}
-                @foreach($zip_codes as $zip)
-                <label for="country">{{ $zip['country'] }}</label>
-                <input type="checkbox" id="country" name="{{ $zip['country_abb'] }}">
+                @foreach($countries as $country)
+                <label for="country">{{ $country['name'] }}</label>
+                <input type="checkbox" id="country" name="{{ $country['abbreviation'] }}">
                     <br>
                 @endforeach
                 <hr>

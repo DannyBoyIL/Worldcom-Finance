@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Place;
 use Illuminate\Http\Request;
 use App\Http\Requests\ZipRequest;
+use App\Traits\CountryResolver;
+use App\Country;
 
-use App\ZipCode;
+class PagesController extends MainController {
 
-class PagesController extends MainController
-{
     public function home() {
-        self::$data['zip_codes'] = ZipCode::all()->toArray();
+        self::$data['countries'] = Country::all()->toArray();
         self::$data['title'] .= ' Home';
         return view('home', self::$data);
     }
 
     public function postZipCode(ZipRequest $request) {
-//        dd($request->toArray());
-
-        Place::findZip($request);
+        Country::findPlace($request->toArray());
 //        self::$data['title'] .= ' Home';
 //        return view('home', self::$data);
     }
+
 }
