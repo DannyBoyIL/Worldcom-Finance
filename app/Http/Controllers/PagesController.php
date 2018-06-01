@@ -16,7 +16,8 @@ class PagesController extends MainController {
     }
 
     public function postZipCode(ZipRequest $request) {
-        Country::findPlace($request->toArray());
+//        dd($request->toArray());
+        Country::findPlace($request);
 //        self::$data['title'] .= ' Home';
 //        return view('home', self::$data);
     }

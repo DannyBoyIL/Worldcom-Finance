@@ -55,14 +55,16 @@ class Country extends Model {
         return $array;
     }
 
-    static function findPlace($array)
+    static function findPlace($request)
     {
-        $arr = self::prepareRequest($array);
-        $zips = self::searchDB($arr);
 
-        $isArray = array_where($zips, function ($value) {
-            return is_array($value);
-        });
+//
+//        $arr = self::prepareRequest($array);
+//        $zips = self::searchDB($arr);
+//
+//        $isArray = array_where($zips, function ($value) {
+//            return is_array($value);
+//        });
 
 //        if ($isArray) {
 //
@@ -80,15 +82,25 @@ class Country extends Model {
 //        }
 
 
-            $country = new self();
-            $array = $country->convert_checkbox($array);
-            $zip = $array['zip'];
-            dd($zip);
+//            $country = new self();
+//            $array = $country->convert_checkbox($array);
+//            $zip = $array['zip'];
+//            dd($zip);
 //            dd($array['countries'] . 'if (empty($zips))');
 
+            $array = $request->toArray();
+//            dd($array);
+            $country = $array['country'];
+            $zip = $array['zip'];
+//            dd($country);
+//            dd($zip);
             $client = new \GuzzleHttp\Client();
             $request = new \GuzzleHttp\Psr7\Request('GET', "http://api.zippopotam.us/$country/$zip");
             $promise = $client->sendAsync($request)->then(function ($response) {
+//                $res = $response;
+//                $body = $response->getBody();
+//                dd($body);
+//                dd($res->toJson());
                 echo '<pre>' . $response->getBody();
             });
             $promise->wait();
