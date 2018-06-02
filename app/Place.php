@@ -23,7 +23,7 @@ class Place extends Model
         $places->place = $place['state'];
         $places->longitude = $place['longitude'];
         $places->latitude = $place['latitude'];
-        }
         $places->save();
+        }
     }
 }
