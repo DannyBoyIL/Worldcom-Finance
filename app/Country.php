@@ -17,10 +17,10 @@ class Country extends Model
         $data = [];
         $abb = $request['country'];
         $zip = $request['zip'];
+        $abb = 'AT';
+        if ($zips = self::find($abb)) {
 
-        if ($zips = self::find($abb)->zips->where('zip', '=', $zip)->first()) {
-
-            $zips = $zips->toArray();
+            $zips = self::find($abb)->zips->where('zip', '=', $zip)->first();
 
             if ($places = Place::find($zips['place_id'])) {
 
@@ -30,14 +30,33 @@ class Country extends Model
             }
         }
 
+            $client = new \GuzzleHttp\Client();
+            $request = new \GuzzleHttp\Psr7\Request('GET', "http://api.zippopotam.us/$abb/$zip");
+            $promise = $client->sendAsync($request)->then(function ($response) {
 
-        $client = new \GuzzleHttp\Client();
-        $request = new \GuzzleHttp\Psr7\Request('GET', "http://api.zippopotam.us/$abb/$zip");
-        $promise = $client->sendAsync($request)->then(function ($response) {
-            dd($response);
-            echo '<pre>' . $response->getBody();
-        });
-        $promise->wait();
+                $body = json_decode($response->getBody());
+                $array = (array)$body;
+                foreach ($array['places'] as $key => $place) {
+                    $array['places'][$key] = (array)$place;
+                };
+            Place::savePlace($array);
+                dd($array);
+            })->otherwise(function ($error) {
+                dd('error');
+                return $error;
+                view('errors.404')->withErrors($error);
+            });
+            $promise->wait();
+//        dd($promise);
+        }
 
+
+    static function saveCountry($request) {
+
+//        dd($request);
+        $country = new self();
+        $country->abb = $request['country abbreviation'];
+        $country->name = $request['country'];
+        $country->save();
     }
 }
