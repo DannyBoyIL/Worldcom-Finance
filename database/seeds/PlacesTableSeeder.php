@@ -4,15 +4,14 @@ use Illuminate\Database\Seeder;
 use App\Place;
 use App\Country;
 
-class PlacesTableSeeder extends Seeder
-{
+class PlacesTableSeeder extends Seeder {
+
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         Place::truncate();
         $faker = \Faker\Factory::create();
         $country = Country::all()->toArray();
@@ -27,4 +26,5 @@ class PlacesTableSeeder extends Seeder
             ]);
         }
     }
+
 }

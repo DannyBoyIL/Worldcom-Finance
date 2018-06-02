@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>@if(!empty($title))
-                {{ $title }}
+            {{ $title }}
             @endif
         </title>
 
@@ -16,10 +16,10 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-                   <p>name: {{ $place['name'] }}</p>
-                   <p>place: {{ $place['place'] }}</p>
-                   <p>longitude: {{ $place['longitude'] }}</p>
-                   <p>latitude: {{ $place['latitude'] }}</p>
+            <p>name: {{ $place['name'] }}</p>
+            <p>place: {{ $place['place'] }}</p>
+            <p>longitude: {{ $place['longitude'] }}</p>
+            <p>latitude: {{ $place['latitude'] }}</p>
             <a href="{{ url('') }}">Go Back</a>
         </div>
     </body>

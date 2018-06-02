@@ -3,15 +3,14 @@
 use Illuminate\Database\Seeder;
 use App\Country;
 
-class CountriesTableSeeder extends Seeder
-{
+class CountriesTableSeeder extends Seeder {
+
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         $supported = [
             'AD' => 'Andorra',
             'AR' => 'Argentina',
@@ -102,6 +101,6 @@ class CountriesTableSeeder extends Seeder
                 }
             }
         }
-
     }
+
 }
