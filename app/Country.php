@@ -16,13 +16,14 @@ class Country extends Model {
 
     static function findPlace($request, &$data) {
 
-        dd($request);
+//        dd($request);
         $data = [];
         $abb = $request['country'];
         $zip = $request['zip'];
 
-        $place = self::find($abb)->zips->where('zip', '=', $zip)->toArray();
-        dd($place);
+//        $place = self::find($abb)->zips->where('zip', '=', $zip)->toArray();
+        $place = self::find($abb);
+        dd($place->toArray());
 
         die;
         if ($category = Category::where('url', '=', $category_url)->first()) {
