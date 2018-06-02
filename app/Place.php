@@ -14,7 +14,6 @@ class Place extends Model
 
     static function savePlace($request) {
 
-//        dd($request);
         $abb = $request['country abbreviation'];
         $places = new self();
         foreach($request['places'] as $place) {
