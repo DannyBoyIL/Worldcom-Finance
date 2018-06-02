@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Places;
-use App\ZipCode;
+use App\Place;
+use App\Country;
 
 class PlacesTableSeeder extends Seeder
 {
@@ -13,19 +13,17 @@ class PlacesTableSeeder extends Seeder
      */
     public function run()
     {
-        Places::truncate();
+        Place::truncate();
         $faker = \Faker\Factory::create();
-        $country_id = ZipCode::all()->lists('id');
+        $country = Country::all()->toArray();
 
-        for($i = 0; $i < 10; $i++) {
-            Places::create([
-//                'zip_code_id' = $faker->randomElement($zipcodes),
-                'country_id' => $faker->randomElement($country_id),
-                'zip' => $faker->postcode,
-                'name' => Faker::Address.street_name,
-                'place' => Faker::Address.state,
-                'longitude' => Faker::Address.longitude,
-                'latitude' => Faker::Address.latitude,
+        for ($i = 0; $i < 10; $i++) {
+            Place::create([
+                'country_abb' => $country[$i]['abb'],
+                'name' => $faker->streetName,
+                'place' => $faker->streetAddress,
+                'longitude' => $faker->longitude,
+                'latitude' => $faker->latitude,
             ]);
         }
     }

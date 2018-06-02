@@ -4,15 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model {
-
-    use Traits\CountryResolver;
-
-    protected $fillable = ['name', 'abbreviation'];
-
-    public function zips() {
-        return $this->hasMany('App\Zip');
-    }
+class Country extends Model
+{
+    protected $fillable = ['abb', 'name'];
 
     static function findPlace($request, &$data) {
 
@@ -33,17 +27,16 @@ class Country extends Model {
             }
         }
 
-            $client = new \GuzzleHttp\Client();
-            $request = new \GuzzleHttp\Psr7\Request('GET', "http://api.zippopotam.us/$abb/$zip");
-            $promise = $client->sendAsync($request)->then(function ($response) {
+        $client = new \GuzzleHttp\Client();
+        $request = new \GuzzleHttp\Psr7\Request('GET', "http://api.zippopotam.us/$abb/$zip");
+        $promise = $client->sendAsync($request)->then(function ($response) {
 //                $res = $response;
 //                $body = $response->getBody();
 //                dd($body);
 //                dd($res->toJson());
-                echo '<pre>' . $response->getBody();
-            });
-            $promise->wait();
+            echo '<pre>' . $response->getBody();
+        });
+        $promise->wait();
 
     }
-
 }

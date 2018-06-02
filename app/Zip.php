@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Zip extends Model {
+class Zip extends Model
+{
+    protected $fillable = ['country_abb', 'place_id', 'zip'];
+
+    public $timestamps = false;
 
     public function country() {
         return $this->hasMany('App\Country', 'id', 'country_id');
     }
-
-// TODO Column not found: 1054 Unknown column 'zips.id' in 'where clause' (SQL: select * from `zips` where `zips`.`id` = 1 limit 1)"
 }

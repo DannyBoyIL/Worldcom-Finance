@@ -71,7 +71,6 @@
 <body>
 
 <div class="flex-center position-ref full-height">
-
     <div class="content">
         <div class="m-b-md">
             <form action="{{ url('zip-code') }}" method="post">
@@ -79,7 +78,7 @@
                 <label for="country"></label>
                 <select id="country" name="country">
                 @foreach($countries as $country)
-                    <option value="{{ $country['id'] }}">{{ $country['name'] }}</option>
+                    <option value="{{ $country['abb'] }}">{{ $country['name'] }}</option>
                 @endforeach
                 </select>
                 <hr>
