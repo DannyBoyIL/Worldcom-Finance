@@ -13,4 +13,6 @@ class Zip extends Model
     public function country() {
         return $this->hasMany('App\Country', 'id', 'country_id');
     }
+
+    static public function saveZips() {}
 }
