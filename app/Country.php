@@ -12,50 +12,67 @@ class Country extends Model {
         return $this->hasMany('App\Zip', 'country_abb', 'abb');
     }
 
+    public function places() {
+        return $this->hasMany('App\Place', 'country_abb', 'abb');
+    }
+
     static function findPlace($request, &$data) {
 
         $data = [];
         $abb = $request['country'];
         $zip = $request['zip'];
 
-        if ($zips = self::find($abb)) {
+        $zips = self::find($abb)->zips->where('zip', '=', $zip);
 
-            $zips = self::find($abb)->zips->where('zip', '=', $zip)->first();
+        $zips = $zips->toArray();
 
-            if ($places = Place::find($zips['place_id'])) {
+        if (!empty($zips)) {
 
-                $data['place'] = $places->toArray();
-                return;
+            $places = [];
+            foreach ($zips as $key => $zip) {
+                $places[$key] = self::find($abb)->places->where('id', '=', $zip['place_id'])->toArray();
+                $places[$key] = array_pop($places[$key]);
             }
+//            dd('findPlace->$places', $places);
+
+            $data['places'] = $places;
+            return;
         }
 
         $client = new \GuzzleHttp\Client();
         $request = new \GuzzleHttp\Psr7\Request('GET', "http://api.zippopotam.us/$abb/$zip");
         $promise = $client->sendAsync($request)->then(function ($response) {
 
-                    $body = json_decode($response->getBody());
-                    $array = (array) $body;
-                    foreach ($array['places'] as $key => $place) {
-                        $array['places'][$key] = (array) $place;
-                    };
-                    Place::savePlace($array);
-                    dd($array);
-                })->otherwise(function ($error) {
-            dd('error');
-            return $error;
-            view('errors.404')->withErrors($error);
+            $body = json_decode($response->getBody());
+            $country = (array) $body;
+            foreach ($country['places'] as $key => $place) {
+                $country['places'][$key] = (array) $place;
+            };
+
+            Place::savePlace($country, $abb);
+
+            return $country['places'];
+        }, function ($error) {
+
+            $message = 'Sorry, the place wasn\'t found. try again';
+            return $message;
         });
-        $promise->wait();
-//        dd($promise);
-    }
+        $callback = $promise->wait();
 
-    static function saveCountry($request) {
+        if (is_string($callback)) {
 
-//        dd($request);
-        $country = new self();
-        $country->abb = $request['country abbreviation'];
-        $country->name = $request['country'];
-        $country->save();
+            return $callback;
+        } else {
+
+            foreach ($callback as $key => $c) {
+                $callback[$key]['name'] = $c['place name'];
+                $callback[$key]['place'] = $c['state'];
+                unset($callback[$key]['place name']);
+                unset($callback[$key]['state']);
+            }
+
+            $data['places'] = $callback;
+        }
     }
 
 }
