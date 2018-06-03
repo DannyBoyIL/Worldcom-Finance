@@ -8,10 +8,6 @@ class Place extends Model {
 
     protected $fillable = ['country_abb', 'name', 'place', 'longitude', 'latitude'];
 
-    public function zips() {
-        return $this->belongsTo('App\Zip', 'id', 'place_id');
-    }
-
     static function savePlace($request, &$abb) {
 
         $abb = $request['country abbreviation'];

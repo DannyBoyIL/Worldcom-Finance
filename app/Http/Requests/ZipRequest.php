@@ -24,7 +24,8 @@ class ZipRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'country' => 'required',
+            'zip' => 'required|min:3|max:9'
         ];
     }
 }

@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Zip extends Model {
 
     protected $fillable = ['country_abb', 'place_id', 'zip'];
-    public $timestamps = false;
 
-    public function country() {
-        return $this->hasMany('App\Country', 'id', 'country_id');
-    }
+    public $timestamps = false;
 
     static public function saveZips($country, $id) {
 
@@ -24,5 +21,4 @@ class Zip extends Model {
             $zip->zip = $code;
             $zip->save();
         }
-
 }

@@ -33,7 +33,6 @@ class Country extends Model {
                 $places[$key] = self::find($abb)->places->where('id', '=', $zip['place_id'])->toArray();
                 $places[$key] = array_pop($places[$key]);
             }
-//            dd('findPlace->$places', $places);
 
             $data['places'] = $places;
             return;
