@@ -8,7 +8,7 @@ class Place extends Model {
 
     protected $fillable = ['country_abb', 'name', 'place', 'longitude', 'latitude'];
 
-    static function savePlace($request, &$abb) {
+    static function savePlace($request) {
 
         $abb = $request['country abbreviation'];
         foreach ($request['places'] as $place) {

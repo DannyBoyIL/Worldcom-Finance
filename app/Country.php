@@ -48,7 +48,7 @@ class Country extends Model {
                 $country['places'][$key] = (array) $place;
             };
 
-            Place::savePlace($country, $abb);
+            Place::savePlace($country);
 
             return $country['places'];
         }, function ($error) {
