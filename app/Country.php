@@ -52,7 +52,7 @@ class Country extends Model {
 
             return $country['places'];
         }, function ($error) {
-            abort(404, 'Page not fount');
+            abort(404, 'Page not found');
             $message = 'Sorry, the place wasn\'t found. try again';
             return $message;
         });
